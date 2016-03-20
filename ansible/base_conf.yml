@@ -81,13 +81,27 @@
   tasks:
 
     - name: Install Apache with mod_wsgi
-      apt: name={{ item }} update_cache=yes state=latest
-      with_items:
+      apt:
+        name:
           - apache2
           - libapache2-mod-wsgi
+        update_cache: yes
+        state: latest
+
+    - name: Enable mod_wsgi
+      apache2_module:
+        name: wsgi
+        state: present
+      notify: Restart Apache2
 
     - name: Install PostgreSQL
       apt:
         name: postgresql
         update_cache: yes
         state: latest
+
+  handlers:
+    - name: Restart Apache2
+      service:
+        name: apache2
+        state: restarted
