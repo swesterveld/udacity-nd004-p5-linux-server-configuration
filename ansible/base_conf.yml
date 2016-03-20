@@ -1,19 +1,6 @@
 ---
-- name: Configure the local timezone to UTC
-  hosts: local
-  tasks:
-
-    - name: Update timezone to Etc/UTC
-      copy:
-        content: "Etc/UTC\n"
-        dest: /etc/timezone
-      register: timezone
-
-    - name: Reconfigure timezone data
-      shell: dpkg-reconfigure -f noninteractive tzdata
-      when: timezone.changed
-
-- name: Create a new user named grader and grant this user sudo permissions
+- name: Create a new user named grader and grant this user sudo
+        permissions
   hosts: local
   tasks:
     - name: Setup user grader
@@ -32,3 +19,16 @@
         line: "%grader ALL=(ALL) NOPASSWD:ALL"
         validate: visudo --quiet --check --file=%s
 
+- name: Configure the local timezone to UTC
+  hosts: local
+  tasks:
+
+    - name: Update timezone to Etc/UTC
+      copy:
+        content: "Etc/UTC\n"
+        dest: /etc/timezone
+      register: timezone
+
+    - name: Reconfigure timezone data
+      shell: dpkg-reconfigure -f noninteractive tzdata
+      when: timezone.changed
