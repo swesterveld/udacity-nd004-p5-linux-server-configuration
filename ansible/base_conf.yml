@@ -75,3 +75,19 @@
       service:
         name: ssh
         state: restarted
+
+- name: Install Application
+  hosts: local
+  tasks:
+
+    - name: Install Apache with mod_wsgi
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+          - apache2
+          - libapache2-mod-wsgi
+
+    - name: Install PostgreSQL
+      apt:
+        name: postgresql
+        update_cache: yes
+        state: latest
