@@ -100,6 +100,29 @@
         update_cache: yes
         state: latest
 
+    - name: Setup user for database beercatalog
+      postgresql_user:
+        name: connoisseur
+        password: michaeljackson
+      become: true
+      become_user: postgres
+
+    - name: Setup database beercatalog
+      postgresql_db:
+        name: beercatalog
+        encoding: UTF-8
+        owner: connoisseur
+        state: present
+      become: true
+      become_user: postgres
+
+    #- name: Allow localhost to access beercatalog database
+    #  postgresql_privs:
+    #    database: beercatalog
+    #    state: present
+    #    roles: connoisseur
+    #    privs: ALL
+
     - name: Install packages needed for Catalog App
       apt:
         name:
@@ -117,7 +140,6 @@
       pip:
         name: requests
         state: present
-
 
     - name: Install Git
       apt:
