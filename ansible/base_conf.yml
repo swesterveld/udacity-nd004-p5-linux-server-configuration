@@ -100,6 +100,36 @@
         update_cache: yes
         state: latest
 
+    - name: Install packages needed for Catalog App
+      apt:
+        name:
+          - python-flask
+          - python-pip
+          - python-psycopg2
+          - python-sqlalchemy
+
+    - name: Install PyPI package oauth2client
+      pip:
+        name: oauth2client
+        state: present
+
+    - name: Install PyPI package requests
+      pip:
+        name: requests
+        state: present
+
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+
+    - name: Clone Catalog App project
+      git:
+        repo: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
+        dest: /var/www/catalog
+        update: no
+
   handlers:
     - name: Restart Apache2
       service:
