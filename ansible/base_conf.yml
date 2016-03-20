@@ -1,6 +1,5 @@
 ---
-- name: Create a new user named grader and grant this user sudo
-        permissions
+- name: Perform Basic Configuration
   hosts: local
   tasks:
     - name: Setup user grader
@@ -19,10 +18,6 @@
         line: "%grader ALL=(ALL) NOPASSWD:ALL"
         validate: visudo --quiet --check --file=%s
 
-- name: Update all currently installed packages
-  hosts: local
-  tasks:
-
     - name: Update APT package cache
       apt:
         update_cache: yes
@@ -31,11 +26,6 @@
     - name: Upgrade packages
       apt:
         upgrade: safe
-
-
-- name: Configure the local timezone to UTC
-  hosts: local
-  tasks:
 
     - name: Update timezone to Etc/UTC
       copy:
@@ -47,12 +37,19 @@
       shell: dpkg-reconfigure -f noninteractive tzdata
       when: timezone.changed
 
-# TODO: Change SSH port from 22 to 2200
-
-- name: Configure Uncomplicated Firewall (ufw) to only allow incoming
-        connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+- name: Secure Server
   hosts: local
   tasks:
+      # TODO: Change SSH port from 22 to 2200
+      #       This will probably need a `vagrant reload`
+      #- name: Change SSH port from 22 to 2200
+      #  lineinfile:
+      #    dest: /etc/ssh/sshd_config
+      #    regexp: "^Port"
+      #    line: "Port 2200"
+      #    state: present
+      #  notify: Restart SSH
+
       - name: Enable UFW and deny everything
         ufw:
           state: enabled
@@ -61,7 +58,7 @@
         ufw:
           rule: allow
           # TODO: Change SSH port from 22 to 2200
-          port: 22
+          port: 2200
           proto: tcp
       - name: Allow HTTP traffic
         ufw:
@@ -73,3 +70,8 @@
           rule: allow
           port: 123
           proto: tcp
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted
