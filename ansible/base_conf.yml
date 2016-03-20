@@ -58,7 +58,7 @@
         ufw:
           rule: allow
           # TODO: Change SSH port from 22 to 2200
-          port: 2200
+          port: 22
           proto: tcp
       - name: Allow HTTP traffic
         ufw:
