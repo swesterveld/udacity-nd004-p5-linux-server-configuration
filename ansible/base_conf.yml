@@ -19,6 +19,20 @@
         line: "%grader ALL=(ALL) NOPASSWD:ALL"
         validate: visudo --quiet --check --file=%s
 
+- name: Update all currently installed packages
+  hosts: local
+  tasks:
+
+    - name: Update APT package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Upgrade packages
+      apt:
+        upgrade: safe
+
+
 - name: Configure the local timezone to UTC
   hosts: local
   tasks:
