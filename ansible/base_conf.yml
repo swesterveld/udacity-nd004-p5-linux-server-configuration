@@ -134,6 +134,7 @@
         repo: "{{ git_repo }}"
         dest: /root/catalog
         update: no
+        version: master
 
     - name: Synchronize Catalog App to docroot
       local_action:
