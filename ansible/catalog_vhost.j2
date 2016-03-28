@@ -2,7 +2,7 @@
     ServerName {{ server_fqdn }}
     ServerAdmin admin@{{ server_domain }}
     WSGIScriptAlias / {{ wsgi_script }}
-    <Directory {{ web_docroot }}/vagrant/catalog/>
+    <Directory {{ web_docroot }}/>
         Order allow,deny
         Allow from all
     </Directory>
