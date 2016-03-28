@@ -2,6 +2,17 @@
 - name: Perform Basic Configuration
   hosts: local
   tasks:
+    - name: Set hostname
+      hostname:
+        name: catalog.silwesterveld.com
+
+    - name: Configure hosts file
+      lineinfile:
+        dest: /etc/hosts
+        state: present
+        regexp: "^52.37.17.247"
+        line: "52.37.17.247 catalog catalog.silwesterveld.com"
+
     - name: Setup user grader
       user:
         name: grader
