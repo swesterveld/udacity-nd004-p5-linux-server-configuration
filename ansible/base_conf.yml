@@ -78,6 +78,12 @@
 
 - name: Install Application
   hosts: local
+  vars:
+      app_git_repo: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
+      app_db_name: beercatalog
+      app_db_user: connoisseur
+      app_db_pass: michaeljackson
+      app_dest_path: /var/www/catalog
   tasks:
 
     - name: Install Apache with mod_wsgi
@@ -102,16 +108,16 @@
 
     - name: Setup user for database beercatalog
       postgresql_user:
-        name: connoisseur
-        password: michaeljackson
+        name: "{{ app_db_user }}"
+        password: "{{ app_db_pass }}"
       become: true
       become_user: postgres
 
     - name: Setup database beercatalog
       postgresql_db:
-        name: beercatalog
+        name: "{{ app_db_name }}"
         encoding: UTF-8
-        owner: connoisseur
+        owner: "{{ app_db_user }}"
         state: present
       become: true
       become_user: postgres
@@ -148,8 +154,8 @@
 
     - name: Clone Catalog App project
       git:
-        repo: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
-        dest: /var/www/catalog
+        repo: "{{ app_git_repo }}"
+        dest: "{{ app_dest_path }}"
         update: no
 
   handlers:
