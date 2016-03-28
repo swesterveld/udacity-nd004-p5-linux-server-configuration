@@ -1,0 +1,10 @@
+These are the references I've used for completing the project.
+
+* Getting Started with Ansible:
+  https://www.ansible.com/get-started
+
+* Ansible Documentation:
+  http://docs.ansible.com/ansible/
+
+* Flask docs about mod_wsgi (Apache):
+  http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/
