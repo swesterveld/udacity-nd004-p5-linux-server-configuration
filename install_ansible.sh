@@ -12,5 +12,5 @@ sudo sed -i -e 's/^#host_key_checking = False/host_key_checking = False/' /etc/a
 
 # Add [local] to hosts
 if ! sudo grep [[]local[]] /etc/ansible/hosts &> /dev/null; then
-    sudo echo -e "\n[local]\n127.0.0.1" >> /etc/ansible/hosts
+    echo -e "\n[local]\n127.0.0.1" | sudo tee --append /etc/ansible/hosts > /dev/null
 fi
