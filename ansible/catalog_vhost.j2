@@ -1,0 +1,17 @@
+<VirtualHost *:{{ server_port }}>
+    ServerName {{ server_fqdn }}
+    ServerAdmin admin@{{ server_domain }}
+    WSGIScriptAlias / {{ wsgi_script }}
+    <Directory {{ web_docroot }}/vagrant/catalog/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static {{ web_static }}
+    <Directory {{ web_static }}/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

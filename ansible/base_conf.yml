@@ -79,11 +79,18 @@
 - name: Install Application
   hosts: local
   vars:
-      app_git_repo: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
-      app_db_name: beercatalog
-      app_db_user: connoisseur
-      app_db_pass: michaeljackson
-      app_dest_path: /var/www/catalog
+      db_name: beercatalog
+      db_user: connoisseur
+      db_pass: michaeljackson
+      clone_src: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
+      clone_dest: /var/www/catalog
+      server_domain: silwesterveld.com
+      server_fqdn: catalog.silwesterveld.com
+      server_port: 80
+      web_docroot: /var/www/catalog
+      web_catalog: /var/www/catalog/vagrant/catalog
+      web_static: /var/www/catalog/vagrant/catalog/static
+      wsgi_script: /var/www/catalog/app.wsgi
   tasks:
 
     - name: Install Apache with mod_wsgi
@@ -100,24 +107,41 @@
         state: present
       notify: Restart Apache2
 
+    - name: Setup WSGI for the Beer Catalog website
+      template:
+        src: catalog_wsgi.j2
+        dest: "{{ wsgi_script }}"
+
+    - name: Create host configuration for the Beer Catalog website
+      template:
+        src: catalog_vhost.j2
+        dest: /etc/apache2/sites-available/{{ server_fqdn }}.conf
+
+    - name: Enable site configuration for the Beer Catalog website
+      command: a2ensite {{ server_fqdn }}
+      args:
+        creates: /etc/apache2/sites-enabled/{{ server_fqdn }}.conf
+      notify:
+        - Restart Apache2
+
     - name: Install PostgreSQL
       apt:
         name: postgresql
         update_cache: yes
         state: latest
 
-    - name: Setup user for database beercatalog
+    - name: Setup user for database {{ db_name }}
       postgresql_user:
-        name: "{{ app_db_user }}"
-        password: "{{ app_db_pass }}"
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
       become: true
       become_user: postgres
 
-    - name: Setup database beercatalog
+    - name: Setup database {{ db_name }}
       postgresql_db:
-        name: "{{ app_db_name }}"
+        name: "{{ db_name }}"
         encoding: UTF-8
-        owner: "{{ app_db_user }}"
+        owner: "{{ db_user }}"
         state: present
       become: true
       become_user: postgres
@@ -154,8 +178,8 @@
 
     - name: Clone Catalog App project
       git:
-        repo: "{{ app_git_repo }}"
-        dest: "{{ app_dest_path }}"
+        repo: "{{ clone_src }}"
+        dest: "{{ clone_dest }}"
         update: no
 
   handlers:
