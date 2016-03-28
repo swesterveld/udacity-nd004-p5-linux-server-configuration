@@ -82,14 +82,13 @@
       db_name: beercatalog
       db_user: connoisseur
       db_pass: michaeljackson
-      clone_src: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
-      clone_dest: /var/www/catalog
+      git_repo: https://github.com/swesterveld/udacity-nd004-p3-item-catalog.git
       server_domain: silwesterveld.com
       server_fqdn: catalog.silwesterveld.com
       server_port: 80
       web_docroot: /var/www/catalog
-      web_catalog: /var/www/catalog/vagrant/catalog
-      web_static: /var/www/catalog/vagrant/catalog/static
+      web_catalog: /var/www/catalog
+      web_static: /var/www/catalog/static
       wsgi_script: /var/www/catalog/app.wsgi
   tasks:
 
@@ -132,9 +131,31 @@
 
     - name: Clone Catalog App project
       git:
-        repo: "{{ clone_src }}"
-        dest: "{{ clone_dest }}"
+        repo: "{{ git_repo }}"
+        dest: /root/catalog
         update: no
+
+    - name: Synchronize Catalog App to docroot
+      local_action:
+        command rsync -a /root/catalog/vagrant/catalog/ {{ web_docroot }}
+
+    - name: Patch path to client_secrets.json
+      replace:
+        dest: "{{ web_catalog }}/catalog.py"
+        regexp: "'client_secrets.json'"
+        replace: "'/var/www/catalog/client_secrets.json'"
+
+    - name: Patch client_secrets.json
+      replace:
+        dest: "{{ web_catalog }}/client_secrets.json"
+        regexp: "http://localhost:5000"
+        replace: "http://localhost:5000\",\"http://localhost:8000\",\"http://catalog.silwesterveld.com"
+
+      #lineinfile:
+      #  dest: "{{ web_catalog }}/catalog.py"
+      #  state: present
+      #  regexp: "'client_secrets.json'"
+      #  line: "'/var/www/catalog/client_secrets.json'"
 
     - name: Setup WSGI for the Beer Catalog website
       template:
