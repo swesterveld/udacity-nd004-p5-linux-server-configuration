@@ -20,6 +20,7 @@ These are the references I've used for completing the project.
     http://docs.ansible.com/ansible/template_module.html
     http://docs.ansible.com/ansible/postgresql_db_module.html
     http://docs.ansible.com/ansible/postgresql_user_module.html
+    http://docs.ansible.com/ansible/hostname_module.html
 
 * Flask docs about mod_wsgi (Apache):
   http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/
