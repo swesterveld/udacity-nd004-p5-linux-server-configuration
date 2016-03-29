@@ -246,6 +246,11 @@
         src: catalog_vhost.j2
         dest: /etc/apache2/sites-available/{{ server_fqdn }}.conf
 
+    - name: Disable default site configuration
+      file:
+        dest: /etc/apache2/sites-enabled/000-default.conf
+        state: absent
+
     - name: Enable site configuration for the Beer Catalog website
       command: a2ensite {{ server_fqdn }}
       args:
