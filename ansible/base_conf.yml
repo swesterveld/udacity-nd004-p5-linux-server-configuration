@@ -77,6 +77,10 @@
           state: present
         notify: Restart SSH
 
+      - name: Install UFW
+        apt:
+          name: ufw
+
       - name: Enforce key-based authentication
         lineinfile:
           dest: /etc/ssh/sshd_config
@@ -105,6 +109,20 @@
           rule: allow
           port: 123
           proto: tcp
+
+      - name: Install packages for extra security measures
+        apt:
+          name:
+            - fail2ban
+            - unattended-upgrades
+            - logwatch
+          state: installed
+
+      - name: Configure unattended upgrades
+        copy:
+          src: apt_periodic
+          dest: /etc/apt/apt.conf.d/10periodic
+
   handlers:
     - name: Restart SSH
       service:
