@@ -50,6 +50,9 @@
 
 - name: Secure Server
   hosts: local
+  vars:
+      server_domain: silwesterveld.com
+
   tasks:
       # TODO: Change SSH port from 22 to 2200
       #       This will probably need a `vagrant reload`
@@ -122,6 +125,28 @@
         copy:
           src: apt_periodic
           dest: /etc/apt/apt.conf.d/10periodic
+
+      - name: Set up Postfix to relay email for Logwatch
+        debconf:
+          name: postfix
+          question: "{{ item.question }}"
+          value: "{{ item.value }}"
+          vtype: "{{ item.vtype }}"
+        with_items:
+            - { question: "postfix/mailname",
+                value: "{{ ansible_fqdn }}",
+                vtype: "string" }
+            - { question: "postfix/mail_mailer_type",
+                value: "Internet Site",
+                vtype: "string" }
+
+      - name: Email daily log summary from Logwatch
+        lineinfile:
+          dest: /etc/cron.daily/00logwatch
+          regexp: "^/usr/sbin/logwatch"
+          line: "/usr/sbin/logwatch --output mail --mailto logwatch@{{ server_domain }} --detail high"
+          state: present
+          create: yes
 
   handlers:
     - name: Restart SSH
