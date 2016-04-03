@@ -11,7 +11,7 @@ For reviewing -- upon graduation form the Nanodegree program -- this project is
 running in a development environment. This environment is on an Amazon AWS EC2
 instance accessible by the reviewer:
 || IP          || port || URL ||
-| 52.37.17.247 | -     | -    |
+| 52.37.171.67 | -     | -    |
 
 ## Software Installed
 
