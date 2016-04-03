@@ -10,8 +10,8 @@
       lineinfile:
         dest: /etc/hosts
         state: present
-        regexp: "^52.37.17.247"
-        line: "52.37.17.247 catalog catalog.silwesterveld.com"
+        regexp: "^52.37.171.67"
+        line: "52.37.171.67 catalog catalog.silwesterveld.com"
 
     - name: Setup user grader
       user:
