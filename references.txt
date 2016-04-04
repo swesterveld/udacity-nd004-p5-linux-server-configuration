@@ -7,6 +7,7 @@ These are the references I've used for completing the project.
   http://docs.ansible.com/ansible/
 
   and especially:
+    http://docs.ansible.com/ansible/authorized_key_module.html
     http://docs.ansible.com/ansible/replace_module.html
     http://docs.ansible.com/ansible/lineinfile_module.html
     http://docs.ansible.com/ansible/apache2_module_module.html
