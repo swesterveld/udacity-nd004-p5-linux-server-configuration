@@ -1,5 +1,5 @@
 ---
-- name: Prepare host for deployments
+- name: Prepare host for deployments by deploy user only
   hosts: udacity_p5
   vars:
     deploy_user_name: deploy
@@ -7,18 +7,18 @@
     ssh_port: 22
 
   tasks:
-    - name: Create a deploy user
+    - name: the deploy user is existing
       user:
         name: "{{ deploy_user_name }}"
         append: yes
         shell: /bin/bash
 
-    - name: Add authorized keys for deploy user
+    - name: the deploy user has authorized keys
       authorized_key:
         user: "{{ deploy_user_name }}"
         key: "{{ lookup('file', deploy_public_key ) }}"
 
-    - name: Make sure the deploy user can sudo
+    - name: the deploy user can sudo
       lineinfile:
         dest: /etc/sudoers.d/deploy
         create: yes
@@ -52,20 +52,21 @@
         regexp: "^Port"
         line: "Port 2200"
         state: present
-      notify: Restart SSH
+      notify: SSH restart
 
-    - name: Enable UFW and deny everything
+    - name: UFW is enabled with policy to deny by default
       ufw:
         state: enabled
         policy: deny
-    - name: Allow SSH traffic
+
+    - name: port 2200 (for SSH) is open in UFW
       ufw:
         rule: allow
         port: 2200
         proto: tcp
 
   handlers:
-    - name: Restart SSH
+    - name: SSH restart
       service:
         name: ssh
         state: restarted
