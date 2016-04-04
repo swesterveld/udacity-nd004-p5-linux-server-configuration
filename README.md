@@ -21,12 +21,45 @@ Because I already have experience with CFEngine and Puppet for configuration
 management, for this project I wanted to use a tool that's new for me. As I've
 heard a lot of good things about Ansible, I decided to learn Ansible this time.
 
+My idea was to have a separate user `deploy` on the VM that will be used by
+Ansible for the provisioning of the VM and deployment of the Catalog app.
+
 ### Install Ansible
 
-With `brew` in OS X, installing Ansible is done like this:
+I'm using OS X with `brew` as my package manager. Installing Ansible with
+`brew` has been done like this:
 
 ```
 $ brew install ansible
+```
+
+### Make key pair for Ansible
+
+Ansible should connect to the VM as user `deploy`, with key based
+authentication. Therefore I've created a key pair on my local machine:
+
+```
+$ ssh-keygen -t rsa -b 4096 -C "Ansible User"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/me/.ssh/id_rsa): id_rsa_ansible
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in id_rsa_ansible.
+Your public key has been saved in id_rsa_ansible.pub.
+The key fingerprint is:
+SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Ansible User
+The key's randomart image is:
++---[RSA 4096]----+
+|          xxxxx x|
+|         xxxxxxxx|
+|         xxxxxxxx|
+|       xxxx xxxx |
+|        xx xxxx  |
+|            xxx  |
+|            x x  |
+|           x x   |
+|            x    |
++----[SHA256]-----+
 ```
 
 ### DNS settings
