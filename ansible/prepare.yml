@@ -1,0 +1,55 @@
+---
+- name: Prepare host for deployments
+  hosts: udacity_p5
+  vars:
+    deploy_user_name: deploy
+    deploy_public_key: ~/.ssh/id_rsa_ansible.pub
+    ssh_port: 22
+
+  tasks:
+    - name: Create a deploy user
+      user:
+        name: "{{ deploy_user_name }}"
+        append: yes
+        shell: /bin/bash
+
+    - name: Add authorized keys for deploy user
+      authorized_key:
+        user: "{{ deploy_user_name }}"
+        key: "{{ lookup('file', deploy_public_key ) }}"
+
+    - name: Make sure the deploy user can sudo
+      lineinfile:
+        dest: /etc/sudoers.d/deploy
+        create: yes
+        mode: 0400
+        owner: root
+        group: root
+        state: present
+        regexp: "^%{{ deploy_user_name }}"
+        line: "%{{ deploy_user_name }} ALL=(ALL) NOPASSWD:ALL"
+        validate: visudo --quiet --check --file=%s
+
+    - name: Change SSH port from 22 to 2200
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^Port"
+        line: "Port 2200"
+        state: present
+      notify: Restart SSH
+
+    - name: Enable UFW and deny everything
+      ufw:
+        state: enabled
+        policy: deny
+    - name: Allow SSH traffic
+      ufw:
+        rule: allow
+        port: 2200
+        proto: tcp
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted
