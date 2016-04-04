@@ -54,15 +54,13 @@
       server_domain: silwesterveld.com
 
   tasks:
-      # TODO: Change SSH port from 22 to 2200
-      #       This will probably need a `vagrant reload`
-      #- name: Change SSH port from 22 to 2200
-      #  lineinfile:
-      #    dest: /etc/ssh/sshd_config
-      #    regexp: "^Port"
-      #    line: "Port 2200"
-      #    state: present
-      #  notify: Restart SSH
+      - name: Make sure SSH is listening on port 2200
+        lineinfile:
+          dest: /etc/ssh/sshd_config
+          regexp: "^Port"
+          line: "Port 2200"
+          state: present
+        notify: Restart SSH
 
       - name: Disable root login
         lineinfile:
@@ -99,8 +97,7 @@
       - name: Allow SSH traffic
         ufw:
           rule: allow
-          # TODO: Change SSH port from 22 to 2200
-          port: 22
+          port: 2200
           proto: tcp
       - name: Allow HTTP traffic
         ufw:
