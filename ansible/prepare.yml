@@ -7,7 +7,7 @@
     ssh_port: 22
 
   tasks:
-    - name: the deploy user is existing
+    - name: the deploy user exists
       user:
         name: "{{ deploy_user_name }}"
         append: yes
@@ -53,6 +53,10 @@
         line: "Port 2200"
         state: present
       notify: SSH restart
+
+    - name: UFW is installed
+      apt:
+        name: ufw
 
     - name: UFW is enabled with policy to deny by default
       ufw:
