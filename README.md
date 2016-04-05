@@ -125,7 +125,7 @@ catalog.silwesterveld.com  : ok=10   changed=8    unreachable=0    failed=0
 ## Deployment
 
 ```
-$ ansible-playbook --inventory-file=inventory_deploy.ini base_conf.yml --user=deploy --private-key=~/.ssh/id_rsa_ansible --sudo
+$ ansible-playbook --inventory-file=inventory_deploy.ini deploy.yml --user=deploy --private-key=~/.ssh/id_rsa_ansible --sudo
 
 PLAY [Perform Basic Configuration] *********************************************
 
