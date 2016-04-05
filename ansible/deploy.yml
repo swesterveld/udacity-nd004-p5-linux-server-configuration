@@ -213,8 +213,6 @@
         version: master
 
     - name: Catalog App synchronized to docroot
-      #local_action:
-      #  command rsync -a /root/catalog/vagrant/catalog/ {{ web_docroot }}
       synchronize:
         src: /root/catalog_clone/vagrant/catalog/
         dest: "{{ web_docroot }}"
@@ -293,6 +291,7 @@
         state: present
       become: true
       become_user: postgres
+      notify: Initialize Catalog Database
 
     #- name: Allow localhost to access beercatalog database
     #  postgresql_privs:
@@ -306,3 +305,6 @@
       service:
         name: apache2
         state: restarted
+
+    - name: Initialize Catalog Database
+      command: "python {{ web_docroot }}/database_init.py"
