@@ -69,8 +69,8 @@ the Virtual Machine can be reached at address `catalog.silwesterveld.com`:
 
 ```
 $ host catalog.silwesterveld.com
-catalog.silwesterveld.com has address 52.37.171.67
-catalog.silwesterveld.com is an alias for ec2-52-37-171-67.us-west-2.compute.amazonaws.com.
+catalog.silwesterveld.com has address 52.38.60.164
+catalog.silwesterveld.com is an alias for ec2-52-38-60-164.us-west-2.compute.amazonaws.com.
 ```
 
 ### Limit access to VM
@@ -81,7 +81,7 @@ to disable root login, disable password authentication, and listen on port 2200.
 UFW will be configured to only accept incoming traffic on port 2200.
 
 ```
-$ ansible-playbook --inventory-file=inventory.ini prepare.yml  
+$ ansible-playbook --inventory-file=inventory_prepare.ini prepare.yml
 
 PLAY [Prepare host for deployments by deploy user only] ************************
 
@@ -112,7 +112,7 @@ changed: [catalog.silwesterveld.com]
 TASK [UFW is enabled with policy to deny by default] ***************************
 changed: [catalog.silwesterveld.com]
 
-TASK [port 2200 (for SSH) is open in UFW] **************************************
+TASK [incoming traffic allowed on port 2200 (for SSH)] *************************
 changed: [catalog.silwesterveld.com]
 
 RUNNING HANDLER [SSH restart] **************************************************
@@ -120,6 +120,148 @@ changed: [catalog.silwesterveld.com]
 
 PLAY RECAP *********************************************************************
 catalog.silwesterveld.com  : ok=10   changed=8    unreachable=0    failed=0 
+```
+
+## Deployment
+
+```
+$ ansible-playbook --inventory-file=inventory_deploy.ini base_conf.yml --user=deploy --private-key=~/.ssh/id_rsa_ansible --sudo
+
+PLAY [Perform Basic Configuration] *********************************************
+
+TASK [setup] *******************************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [hostname set to catalog.silwesterveld.com] *******************************
+changed: [catalog.silwesterveld.com]
+
+TASK [hosts file configured with catalog.silwesterveld.com] ********************
+changed: [catalog.silwesterveld.com]
+
+TASK [user grader exists] ******************************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [user grader can sudo] ****************************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [APT package cache up-to-date] ********************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [packages upgraded] *******************************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [timezone set to Etc/UTC] *************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [timezone data reconfigured] **********************************************
+skipping: [catalog.silwesterveld.com]
+
+PLAY [Secure Server] ***********************************************************
+
+TASK [setup] *******************************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [SSH is listening on port 2200] *******************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [root login is disabled] **************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [password authentication is disabled] *************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [key-based authentication is enforced] ************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [UFW is installed] ********************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [UFW is enabled with policy to deny by default] ***************************
+ok: [catalog.silwesterveld.com]
+
+TASK [incoming traffic allowed on port 2200 (for SSH)] *************************
+ok: [catalog.silwesterveld.com]
+
+TASK [incoming traffic allowed on port 80 (HTTP)] ******************************
+changed: [catalog.silwesterveld.com]
+
+TASK [incoming traffic allowed on port 123 (NTP)] ******************************
+changed: [catalog.silwesterveld.com]
+
+TASK [packages for extra security measures installed] **************************
+changed: [catalog.silwesterveld.com]
+
+TASK [unattended upgrades configured] ******************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [Postfix configured to relay email for Logwatch] **************************
+changed: [catalog.silwesterveld.com] => (item={u'vtype': u'string', u'question': u'postfix/mailname', u'value': u'catalog.silwesterveld.com'})
+changed: [catalog.silwesterveld.com] => (item={u'vtype': u'string', u'question': u'postfix/mail_mailer_type', u'value': u'Internet Site'})
+
+TASK [Logwatch configured for daily log summary] *******************************
+changed: [catalog.silwesterveld.com]
+
+PLAY [Install Application] *****************************************************
+
+TASK [setup] *******************************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [Apache with mod_wsgi installed] ******************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [mod_wsgi enabled] ********************************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [packages needed for Catalog App installed] *******************************
+changed: [catalog.silwesterveld.com]
+
+TASK [PyPI package oauth2client installed] *************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [PyPI package requests installed] *****************************************
+ok: [catalog.silwesterveld.com]
+
+TASK [Git installed] ***********************************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [Catalog App project cloned] **********************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [Catalog App synchronized to docroot] *************************************
+changed: [catalog.silwesterveld.com -> catalog.silwesterveld.com]
+
+TASK [path to client_secrets.json patched] *************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [client_secrets.json patched] *********************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [WSGI set up for Beer Catalog website] ************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [host configuration created for Beer Catalog website] *********************
+changed: [catalog.silwesterveld.com]
+
+TASK [default site configuration disabled] *************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [site configuration for Beer Catalog website enabled] *********************
+changed: [catalog.silwesterveld.com]
+
+TASK [PostgreSQL installed] ****************************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [user for database beercatalog set up] ************************************
+changed: [catalog.silwesterveld.com]
+
+TASK [database beercatalog set up] *********************************************
+changed: [catalog.silwesterveld.com]
+
+RUNNING HANDLER [Restart Apache2] **********************************************
+changed: [catalog.silwesterveld.com]
+
+PLAY RECAP *********************************************************************
+catalog.silwesterveld.com  : ok=14   changed=28   unreachable=0    failed=0
 ```
 
 ## Software Installed
