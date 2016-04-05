@@ -211,11 +211,17 @@
         update: no
         version: master
 
-    - name: Synchronize Catalog App to docroot
-      local_action:
-        command rsync -a /root/catalog/vagrant/catalog/ {{ web_docroot }}
+    - name: Catalog App synchronized to docroot
+      #local_action:
+      #  command rsync -a /root/catalog/vagrant/catalog/ {{ web_docroot }}
+      synchronize:
+        src: /root/catalog_clone/vagrant/catalog/
+        dest: "{{ web_docroot }}"
+        rsync_opts:
+          - "--exclude=.git"
+      delegate_to: "{{ inventory_hostname }}"
 
-    - name: Patch path to client_secrets.json
+    - name: path to client_secrets.json patched
       replace:
         dest: "{{ web_catalog }}/catalog.py"
         regexp: "'client_secrets.json'"
