@@ -13,7 +13,17 @@ instance accessible by the reviewer.
 
 | IP address   | port |
 | :---         | :--- |
-| 52.37.171.67 | 2200 |
+| 52.38.220.68 | 2200 |
+
+The grader can login to this machine by issuing the following command:
+
+```
+$ ssh grader@catalog.silwesterveld.com -p 2200 -i <rsa_key>
+```
+
+Instead of `<rsa_key>`, the grader should substitute it with the full path of
+the RSA key I provided when handing in the project (for example
+`~/.ssh/id_rsa_grader`).
 
 ## Preparations
 
