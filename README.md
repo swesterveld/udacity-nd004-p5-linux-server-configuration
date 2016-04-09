@@ -168,6 +168,9 @@ PLAY RECAP *********************************************************************
 catalog.silwesterveld.com  : ok=11   changed=8    unreachable=0    failed=0
 ```
 
+Ansible executes these tasks on the right machine, because it's listed in the
+given inventory file.
+
 It takes about half a minute until this playbook is finished. After these
 preparations, all the required deployments are done by a different playbook.
 
@@ -325,6 +328,19 @@ changed: [catalog.silwesterveld.com]
 PLAY RECAP *********************************************************************
 catalog.silwesterveld.com  : ok=43   changed=29   unreachable=0    failed=0
 ```
+
+### Extra Security Measures
+
+As you can see in the last playbook and its output, I've deployed some extra
+tools on the VM:
+
+- fail2ban: to ban hosts that cause multiple authentication errors
+- unattended-upgrades: for automatic installation of security updates
+- logwatch: as a log analyser with nice output
+
+I'm receiving a daily mail from logwatch, of which I've included an example in
+this repository as [logwatch.txt](https://github.com/swesterveld/udacity-nd004-p5-linux-server-configuration/blob/master/logwatch.txt).
+
 
 ## Enable app in Google Developer dashboard
 

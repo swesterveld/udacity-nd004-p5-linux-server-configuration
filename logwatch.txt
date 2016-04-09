@@ -1,0 +1,104 @@
+ ################### Logwatch 7.4.0 (05/29/13) ####################
+        Processing Initiated: Sat Apr  9 06:25:03 2016
+        Date Range Processed: yesterday
+                              ( 2016-Apr-08 )
+                              Period is day.
+        Detail Level of Output: 10
+        Type of Output/Format: mail / text
+        Logfiles for Host: catalog.silwesterveld.com
+ ##################################################################
+
+ --------------------- Cron Begin ------------------------
+
+ Commands Run:
+    User root:
+          cd / && run-parts --report /etc/cron.hourly: 24 Time(s)
+       test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily ): 1 Time(s)
+
+ ---------------------- Cron End -------------------------
+
+
+ --------------------- httpd Begin ------------------------
+
+ 0.04 MB transferred in 32 responses  (1xx 0, 2xx 4, 3xx 0, 4xx 28, 5xx 0)
+     2 Documents (0.00 MB),
+    25 Content pages (0.04 MB),
+     5 Other (0.00 MB)
+
+ Requests with error response codes
+    404 Not Found
+       //MyAdmin/scripts/setup.php: 4 Time(s)
+       //myadmin/scripts/setup.php: 4 Time(s)
+       //phpMyAdmin/scripts/setup.php: 4 Time(s)
+       //phpmyadmin/scripts/setup.php: 4 Time(s)
+       //pma/scripts/setup.php: 4 Time(s)
+       /muieblackcat: 4 Time(s)
+       /CHANGELOG.txt: 1 Time(s)
+       /administrator/manifests/libraries/joomla.xml: 1 Time(s)
+       /irj/portal: 1 Time(s)
+       /joomla.xml: 1 Time(s)
+
+ ---------------------- httpd End -------------------------
+
+
+ --------------------- pam_unix Begin ------------------------
+
+ cron:
+    Sessions Opened:
+       root: 25 Time(s)
+
+
+ ---------------------- pam_unix End -------------------------
+
+
+ --------------------- Postfix Begin ------------------------
+
+ ****** Summary *************************************************************************************
+
+    4.343K  Bytes accepted                               4,447
+    4.343K  Bytes sent via SMTP                          4,447
+ ========   ==================================================
+
+        1   Accepted                                   100.00%
+ --------   --------------------------------------------------
+        1   Total                                      100.00%
+ ========   ==================================================
+
+        1   Removed from queue
+        1   Sent via SMTP
+
+        1   Connection failures (outbound)
+
+ ****** Detail (1) **********************************************************************************
+
+        1   Sent via SMTP ---------------------------------------------------------------------------
+        1      silwesterveld.com
+
+        1   Connection failures (outbound) ----------------------------------------------------------
+        1      Network is unreachable
+        1         2607:f8b0:400e:c03::1a  aspmx.l.google.com
+
+ === Delivery Delays Percentiles ============================================================
+                     0%       25%       50%       75%       90%       95%       98%      100%
+ --------------------------------------------------------------------------------------------
+ Before qmgr       0.50      0.50      0.50      0.50      0.50      0.50      0.50      0.50
+ In qmgr           0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+ Conn setup        0.39      0.39      0.39      0.39      0.39      0.39      0.39      0.39
+ Transmission      0.44      0.44      0.44      0.44      0.44      0.44      0.44      0.44
+ Total             1.30      1.30      1.30      1.30      1.30      1.30      1.30      1.30
+ ============================================================================================
+
+ ---------------------- Postfix End -------------------------
+
+
+ --------------------- Disk Space Begin ------------------------
+
+ Filesystem      Size  Used Avail Use% Mounted on
+ udev            492M   12K  492M   1% /dev
+ /dev/xvda1      7.8G  1.7G  5.7G  23% /
+
+
+ ---------------------- Disk Space End -------------------------
+
+
+ ###################### Logwatch End #########################
