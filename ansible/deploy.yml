@@ -126,6 +126,7 @@
 
       - name: unattended upgrades configured
         copy:
+          # As a template, the file `apt_periodic` is used
           src: apt_periodic
           dest: /etc/apt/apt.conf.d/10periodic
 
@@ -237,19 +238,15 @@
         regexp: "http://localhost:5000"
         replace: "http://localhost:5000\",\"http://localhost:8000\",\"http://catalog.silwesterveld.com"
 
-      #lineinfile:
-      #  dest: "{{ web_catalog }}/catalog.py"
-      #  state: present
-      #  regexp: "'client_secrets.json'"
-      #  line: "'/var/www/catalog/client_secrets.json'"
-
     - name: WSGI set up for Beer Catalog website
       template:
+        # As a template, the file `catalog_wsgi.j2` is used
         src: catalog_wsgi.j2
         dest: "{{ wsgi_script }}"
 
     - name: host configuration created for Beer Catalog website
       template:
+        # As a template, the file `catalog_vhost.j2` is used
         src: catalog_vhost.j2
         dest: /etc/apache2/sites-available/{{ server_fqdn }}.conf
 
@@ -287,13 +284,6 @@
       become: true
       become_user: postgres
       notify: Initialize Catalog Database
-
-    #- name: Allow localhost to access beercatalog database
-    #  postgresql_privs:
-    #    database: beercatalog
-    #    state: present
-    #    roles: connoisseur
-    #    privs: ALL
 
   handlers:
     - name: Restart Apache2
