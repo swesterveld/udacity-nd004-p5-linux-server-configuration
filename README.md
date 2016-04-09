@@ -121,7 +121,10 @@ as the only user that will be granted access. It will configure the SSH server
 to disable root login, disable password authentication, and listen on port 2200.
 UFW will be configured to only accept incoming traffic on port 2200.
 
-The output of the script gives the following output:
+The playbook is called [prepare.yml](https://github.com/swesterveld/udacity-nd004-p5-linux-server-configuration/blob/master/ansible/prepare.yml),
+and it's runned with the inventory file [inventory_prepare.ini](https://github.com/swesterveld/udacity-nd004-p5-linux-server-configuration/blob/master/ansible/inventory_prepare.ini)
+to make it run on the VM. When the playbook is run for the first time, it'll give
+you the following output:
 
 ```
 $ ansible-playbook --inventory-file=inventory_prepare.ini prepare.yml
@@ -170,9 +173,12 @@ preparations, all the required deployments are done by a different playbook.
 
 ## Deployment
 
-The playbook to complete the deployment takes a couple of minutes to complete.
-The following output will give you an idea of all the steps it takes to get the
-machine provisioned according to the requirements specified in the project:
+The playbook to complete the deployment takes a couple of minutes to complete. It
+is stored in [deploy.yml](https://github.com/swesterveld/udacity-nd004-p5-linux-server-configuration/blob/master/ansible/deploy.yml)
+and is run with the inventory [inventory_deploy.ini](https://github.com/swesterveld/udacity-nd004-p5-linux-server-configuration/blob/master/ansible/inventory_deploy.ini)
+to make sure it's targeted at port 2200 of the VM. The following output will give
+you an idea of all the steps it takes to get the machine provisioned according to
+the requirements specified in the project:
 
 ```
 $ time ansible-playbook --inventory-file=inventory_deploy.ini deploy.yml --user=deploy --private-key=~/.ssh/id_rsa_ansible --sudo; say deployed
