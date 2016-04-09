@@ -5,6 +5,23 @@ For this project I've taken a baseline installation of a Linux distribution on
 a virtual machine and prepared it to host the [Catalog App project](https://github.com/swesterveld/udacity-nd004-p3-item-catalog/)
 from earlier in the Nanodegree program.
 
+The project has been *reviewed by me*. According to me, based on the rubric used
+by the Udacity reviewer, this code at least:
+- [x] Meets Specifications: (User Management) Remote login of the root user has
+      been disabled, a remote user that can sudo to root has been defined, user
+      passwords are set securely.
+- [x] Exceeds Specifications: (Security) The firewall has been configured to
+      monitor for repeat unsuccessful login attempts and appropriately bans
+      attackers; cron scripts have been included to automatically manage
+      package updates.
+- [x] Exceeds Specifications: (Application Functionality) The VM included
+      monitoring applications that provide automateed feedback on application
+      availability status and/or system security alerts.
+- [x] Meets Specifications: (Configuration File Comments) Comments are present
+      and effectively explain longer code procedures.
+- [x] Meets Specifications: (Documentation) A README file is included detailing
+      all steps required to successfully run the application.
+
 ## Development Environment
 
 For reviewing -- upon graduation form the Nanodegree program -- this project is
