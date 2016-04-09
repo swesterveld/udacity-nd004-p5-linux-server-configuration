@@ -42,6 +42,9 @@ Instead of `<rsa_key>`, the grader should substitute it with the full path of
 the RSA key I provided when handing in the project (for example
 `~/.ssh/id_rsa_grader`).
 
+The web-frontend of the Catalog App can be opened in your browser, at the URL
+catalog.silwesterveld.com.
+
 ## Preparations
 
 Because I already have experience with CFEngine and Puppet for configuration
