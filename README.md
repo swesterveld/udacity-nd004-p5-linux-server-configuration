@@ -74,15 +74,27 @@ The key's randomart image is:
 
 I did the same to create a key pair for the `grader` user.
 
-### DNS settings
+### DNS and SSH settings
 
 For convenience, I've added a CNAME-record to the DNS settings of my domain, so
 the Virtual Machine can be reached at address `catalog.silwesterveld.com`:
 
 ```
 $ host catalog.silwesterveld.com
-catalog.silwesterveld.com has address 52.38.60.164
-catalog.silwesterveld.com is an alias for ec2-52-38-60-164.us-west-2.compute.amazonaws.com.
+catalog.silwesterveld.com has address 52.38.220.68
+catalog.silwesterveld.com is an alias for ec2-52-38-220-68.us-west-2.compute.amazonaws.com.
+```
+
+To make it possible for non-interactive scripts to connect with the host, I've
+once connected with it manualy, so the host will be added to the
+`~/.ssh/known_hosts` file:
+
+```
+$ ssh -i ~/.ssh/udacity_key.rsa root@52.38.220.68
+The authenticity of host '52.38.220.68 (52.38.220.68)' can't be established.
+ECDSA key fingerprint is MD5:bb:f0:46:17:66:a8:e2:1f:48:db:ec:22:d2:5e:8b:88.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '52.38.220.68' (ECDSA) to the list of known hosts.
 ```
 
 ### Limit access to VM
