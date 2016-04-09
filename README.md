@@ -49,7 +49,54 @@ management, for this project I wanted to use a tool that's new for me. As I've
 heard a lot of good things about Ansible, I decided to learn Ansible this time.
 
 My idea was to have a separate user `deploy` on the VM that will be used by
-Ansible for the provisioning of the VM and deployment of the Catalog app.
+Ansible for the provisioning of the VM and deployment of the Catalog app. The
+exact things that have to be done for the provisioning are described in so
+called 'playbooks'.
+
+### Ansible Playbooks
+
+An Ansible playbook is a very readable YAML file because it's almost
+self-documenting. A playbook starts with a name and a hosts-definition, and
+optionally some variables you want to use:
+
+```
+- name: Prepare host for deployments by deploy user only
+  hosts: udacity_p5
+  vars:
+    deploy_user_name: deploy
+    deploy_public_key: ~/.ssh/id_rsa_ansible.pub
+    ssh_port: 22
+```
+
+This is copied from the playbook that will get the VM ready for provisioning
+by the `deploy` user, and limit access to the machine. In fact, the name says
+so.
+The hosts-value is referring to section `udacity_p5` in the given inventory
+file, which looks like this:
+
+```
+[udacity_p5]
+catalog.silwesterveld.com
+```
+
+So the playbook will only run on the host `catalog.silwesterveld.com`.
+
+The rest of the playbook are all the definitions of tasks that need to be
+executed. It's all again self-documenting:
+
+```
+  tasks:
+    - name: the deploy user exists
+      user:
+        name: "{{ deploy_user_name }}"
+        append: yes
+        shell: /bin/bash
+```
+
+This task for example, will (as the name is already telling you) make sure that
+a user with the name stored in variable `deploy_user_name` is existing. In this
+case it will be user `deploy` which will be used in the main playbook to
+provision the VM. The shell of the new user will be set to `bin/bash`.
 
 ### Install Ansible
 
