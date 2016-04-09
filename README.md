@@ -43,7 +43,7 @@ I'm using OS X with `brew` as my package manager. Installing Ansible with
 $ brew install ansible
 ```
 
-### Make key pair for Ansible
+### Make key pairs for users
 
 Ansible should connect to the VM as user `deploy`, with key based
 authentication. Therefore I've created a key pair on my local machine:
@@ -71,6 +71,8 @@ The key's randomart image is:
 |            x    |
 +----[SHA256]-----+
 ```
+
+I did the same to create a key pair for the `grader` user.
 
 ### DNS settings
 
