@@ -325,3 +325,13 @@ changed: [catalog.silwesterveld.com]
 PLAY RECAP *********************************************************************
 catalog.silwesterveld.com  : ok=43   changed=29   unreachable=0    failed=0
 ```
+
+## Enable app in Google Developer dashboard
+
+To let users correctly log in, I've added the address of the Virtual Machine
+(`http://catalog.silwesterveld.com`) as an authorized URI.
+
+## References
+
+The references I've used for this project are mainly Ansible's pages about their
+modules. The whole list can be found in the [references.txt](https://github.com/swesterveld/udacity-nd004-p5-linux-server-configuration/blob/master/references.txt) file.
