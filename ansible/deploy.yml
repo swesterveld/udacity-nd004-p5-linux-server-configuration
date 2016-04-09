@@ -17,6 +17,11 @@
       user:
         name: grader
 
+    - name: user grader has authorized keys
+      authorized_key:
+        user: grader
+        key: "{{ lookup('file', '~/.ssh/id_rsa_grader.pub' ) }}"
+
     - name: user grader can sudo
       lineinfile:
         dest: /etc/sudoers.d/grader
@@ -259,16 +264,6 @@
         creates: /etc/apache2/sites-enabled/{{ server_fqdn }}.conf
       notify:
         - Restart Apache2
-
-    #- name: IPv6 disabled
-    #  sysctl:
-    #    name: net.ipv6.conf.all.disable_ipv6
-    #    value: 1
-
-    #- name: IPv6 disabled
-    #  sysctl:
-    #    name: net.ipv6.conf.all.autoconf
-    #    value: 0
 
     - name: PostgreSQL installed
       apt:
