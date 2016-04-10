@@ -16,6 +16,7 @@
     - name: user grader exists
       user:
         name: grader
+        password: $6$Fr0xe11glM8$5mOdnp.WldrLr/gFDGSMVDAGE8YaTLRM/IKaLXtZxDpKzBrjA8acHIBdVoa0UJshUbrmRhcnOtsX3eMx.sI9z/
 
     - name: user grader has authorized keys
       authorized_key:
@@ -31,7 +32,7 @@
         group: root
         state: present
         regexp: "^%grader"
-        line: "%grader ALL=(ALL) NOPASSWD:ALL"
+        line: "%grader ALL=(ALL:ALL) ALL"
         validate: visudo --quiet --check --file=%s
 
     - name: APT package cache up-to-date
