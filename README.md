@@ -234,7 +234,7 @@ you an idea of all the steps it takes to get the machine provisioned according t
 the requirements specified in the project:
 
 ```
-$ time ansible-playbook --inventory-file=inventory_deploy.ini deploy.yml --user=deploy --private-key=~/.ssh/id_rsa_ansible --sudo; say deployed
+$ ansible-playbook --inventory-file=inventory_deploy.ini deploy.yml --user=deploy --private-key=~/.ssh/id_rsa_ansible --sudo
 
 PLAY [Perform Basic Configuration] *********************************************
 
